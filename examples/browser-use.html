@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <script src="../build/steem-1.0.0-min.js"></script>
+    <script>
+      var remote = new Steem.Remote();
+
+      function output(inp) {
+          document.getElementById('log').appendChild(document.createElement('pre')).innerHTML = inp;
+      }
+
+      function clear_log() {
+        document.getElementById('log').innerHTML = '';
+      }
+
+      window.onload = function() {
+          var submitbutton = document.getElementById('submitbutton');
+          submitbutton.onclick = function() {clear_log(); submittoserver();};
+          output('connecting...')
+          remote.connect(function(){
+            output('connected.')
+          })
+      }
+
+      function submittoserver() {
+        output("requesting..."); 
+        var acc = document.getElementById('account_name').value.trim();
+        remote.getAccounts([acc], function (err, res) {
+          var str;
+          try {
+            str = JSON.stringify(err || res, null, 2);
+          } catch (e) {};
+          output(str)
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Demo</h1>
+    Account:
+    <input id="account_name" type=text value="" size=30>
+    <button id="submitbutton">Get Info</button><br><br>
+    =============================================================
+    <div id='log'> </div>
+  </body>
+</html>
