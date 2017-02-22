@@ -7,7 +7,10 @@
     "build": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ripplerm/steem-lib"
+  },
   "keywords": [
     "steem",
     "steemit",
