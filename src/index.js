@@ -13,7 +13,8 @@ exports.PrivateKey = require('./privateKey');
 exports.PublicKey = require('./publicKey');
 
 exports.Signature = require('./signature');
-exports.Utils = require('./utils')
+exports.Utils = require('./utils');
+exports.Memo = require('./memo');
 
 exports.Formatter = require('./formatter');
 
