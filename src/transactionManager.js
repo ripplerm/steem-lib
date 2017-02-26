@@ -76,6 +76,7 @@ TransactionManager.prototype.submit = function (tx, callback) {
 	this.broadcast(tx, function (err, res) {
     if (res) tx.emit('submitted', res);
     else if (err) {
+      tx.emit('submitted', err);
       setTimeout(checkStatus, 6 * 1000); //wait for 2block.
     }
   });

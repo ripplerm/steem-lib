@@ -41,7 +41,7 @@ PublicKey.fromPoint = function(point) {
 PublicKey.prototype.toUncompressed = function() {
     var buf = this.Q.getEncoded(false);
     var point = ecurve.Point.decodeFrom(secp256k1, buf);
-    return this.fromPoint(point);
+    return PublicKey.fromPoint(point);
 }
 
 PublicKey.prototype.toBlockchainAddress = function() {

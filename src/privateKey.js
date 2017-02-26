@@ -110,7 +110,7 @@ PrivateKey.prototype.toBuffer = function() {
 }
 
 /** ECIES */
-PrivateKey.get_shared_secret = function(public_key) {
+PrivateKey.prototype.get_shared_secret = function(public_key) {
     public_key = toPublic(public_key)
     var KB = public_key.toUncompressed().toBuffer()
     var KBP = Point.fromAffine(

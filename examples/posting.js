@@ -16,14 +16,15 @@ remote.connect();
 var meta_json = {
 	tags: ['travel', 'photo'],
 };
-var plink = 'xxx-yyy-zzzzzz'
+var plink = 'xxx-yyy-zzzzzz';
+var category = 'travel'
 
 var tx = remote.creatTransaction(MY_ACCOUNT);
 
 tx.comment({
     parent_author: "",
     author: MY_ACCOUNT,
-    parent_permlink: plink,
+    parent_permlink: category,
     permlink: plink,
     title: "My Travel Diary",
     body: "a fantastic story ....",
