@@ -53,8 +53,8 @@ Account.prototype.notifyTx = function (tx) {
 	var type = tx.op[0];
 	var data = tx.op[1];
 
-	this.emit('tx', tx);
-	this.emit(type, tx);
+	this.emit('tx', tx, data);
+	this.emit(type, tx, data);
 
 	if (type == 'transfer') {
 		if (data.from == this._name) this.emit('transfer-out', tx);
