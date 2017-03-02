@@ -273,7 +273,11 @@ Transaction.prototype.complete = function (callback) {
 
     // try autofill ref_block with last_irreversible_block.previous
     function get_ref_block (blockNum) {
-    	self.remote.getBlock(blockNum, function (err, res) {
+		var opts = {
+			blockNum: blockNum,
+			broadcast:  function (res, server) { return (res && res.previous) }
+		};
+    	self.remote.getBlockWith(opts, function (err, res) {
     		if (err || !res) throw new Error("autofill ref_block_num fail.");
     		else {
     			var blockId = res.previous;
