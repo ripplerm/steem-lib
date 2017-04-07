@@ -365,7 +365,13 @@ Remote.prototype.getAuth = function (accountName) {
 }
 
 Remote.prototype.setKey = function (accountName, prikey_wif){
-	this.prikeys[accountName] = PrivateKey.fromWif(prikey_wif);
+	if (PrivateKey.isWif(prikey_wif)) {
+		this.prikeys[accountName] = PrivateKey.fromWif(prikey_wif);
+	} else if (/^[0-9a-fA-F]{64}$/.test(prikey_wif)) {
+		this.prikeys[accountName] = PrivateKey.fromHex(prikey_wif);
+	} else {
+		throw new Error("Invalid Key");
+	}
 }
 
 Remote.prototype.getPrivateKey = function (name) {
