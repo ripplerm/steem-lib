@@ -66,7 +66,7 @@ Auth.prototype.getPriKeys = function (roles){
 
 Auth.prototype.getPubKey = function (role){
    if (!role) role = this.roles[0];
-   return this.pubkeys[role];   
+   return this.pubKeys[role];   
 }
 
 Auth.prototype.getPriKey = function (role){
