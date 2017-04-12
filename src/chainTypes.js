@@ -49,18 +49,25 @@ ChainTypes.operations=
     decline_voting_rights: 36,
     reset_account: 37,
     set_reset_account: 38,
+    claim_reward_balance: 39,
+    delegate_vesting_shares: 40,
+    account_create_with_delegation: 41,
 
     /// virtual operations below this point
-    fill_convert_request: 39,
-    author_reward: 40,
-    comment_reward: 41,
-    curate_reward: 42,
-    liquidity_reward: 43,
-    interest: 44,
-    fill_vesting_withdraw: 45,
-    fill_order: 46,
-    shutdown_witness: 47,
-    fill_transfer_from_savings: 48
+    fill_convert_request: 42,
+    author_reward: 43,
+    curation_reward: 44,
+    comment_reward: 45,
+    liquidity_reward: 46,
+    interest: 47,
+    fill_vesting_withdraw: 48,
+    fill_order: 49,
+    shutdown_witness: 50,
+    fill_transfer_from_savings: 51,
+    hardfork: 52,
+    comment_payout_update: 53,
+    return_vesting_delegation: 54,
+    comment_benefactor_reward: 55
     };
 
 //types.hpp

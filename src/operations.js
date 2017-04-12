@@ -16,7 +16,6 @@ var array = types.array;
 var fixed_array = types.fixed_array;
 var object_id_type = types.object_id_type;
 var vote_id = types.vote_id;
-var future_extensions = types.future_extensions;
 var static_variant = types.static_variant;
 var map = types.map;
 var set = types.set;
@@ -27,19 +26,11 @@ var optional = types.optional;
 var asset = types.asset;
 
 var version = types.version;
-
+var comment_payout_beneficiaries = types.void;
 var future_extensions = static_variant([types.void]);
 var block_header_extensions = static_variant();
 var work = static_variant();
 
-/*
-When updating generated code
-Replace:  operation = static_variant [
-with:     operation.st_operations = [
-
-at the end of this file.
-
-*/
 // Place-holder, their are dependencies on "operation" .. The final list of
 // operations is not avialble until the very end of the generated code.
 // See: operation.st_operations = ...
@@ -250,7 +241,9 @@ var comment_options = new Serializer("comment_options", {
     percent_steem_dollars: uint16,
     allow_votes: bool,
     allow_curation_rewards: bool,
-    extensions: set(static_variant([future_extensions]))
+    extensions: set(static_variant([
+        comment_payout_beneficiaries
+    ]))
 });
 
 var set_withdraw_vesting_route = new Serializer("set_withdraw_vesting_route", {
@@ -260,89 +253,85 @@ var set_withdraw_vesting_route = new Serializer("set_withdraw_vesting_route", {
     auto_vest: bool
 });
 
-var limit_order_create2 = new Serializer( 
-    "limit_order_create2",
-    {owner: string,
+var limit_order_create2 = new Serializer("limit_order_create2", {
+    owner: string,
     orderid: uint32,
     amount_to_sell: asset,
     exchange_rate: price,
     fill_or_kill: bool,
-    expiration: time_point_sec}
-);
+    expiration: time_point_sec
+});
 
-var challenge_authority = new Serializer( 
-    "challenge_authority",
-    {challenger: string,
+var challenge_authority = new Serializer("challenge_authority", {
+    challenger: string,
     challenged: string,
-    require_owner: bool}
-);
+    require_owner: bool
+});
 
-var prove_authority = new Serializer( 
-    "prove_authority",
-    {challenged: string,
-    require_owner: bool}
-);
+var prove_authority = new Serializer("prove_authority", {
+    challenged: string,
+    require_owner: bool
+});
 
-var request_account_recovery = new Serializer( 
-    "request_account_recovery",
-    {recovery_account: string,
+var request_account_recovery = new Serializer("request_account_recovery", {
+    recovery_account: string,
     account_to_recover: string,
     new_owner_authority: authority,
-    extensions: set(future_extensions)}
-);
+    extensions: set(future_extensions)
+});
 
-var recover_account = new Serializer( 
-    "recover_account",
-    {account_to_recover: string,
+var recover_account = new Serializer("recover_account", {
+    account_to_recover: string,
     new_owner_authority: authority,
     recent_owner_authority: authority,
-    extensions: set(future_extensions)}
-);
+    extensions: set(future_extensions)
+});
 
-var change_recovery_account = new Serializer( 
-    "change_recovery_account",
-    {account_to_recover: string,
+var change_recovery_account = new Serializer("change_recovery_account", {
+    account_to_recover: string,
     new_recovery_account: string,
-    extensions: set(future_extensions)}
-);
+    extensions: set(future_extensions)
+});
 
-var escrow_transfer = new Serializer( 
-    "escrow_transfer",
-    {from: string,
+var escrow_transfer = new Serializer("escrow_transfer", {
+    from: string,
     to: string,
-    amount: asset,
-    memo: string,
+    sbd_amount: asset,
+    steem_amount: asset,
     escrow_id: uint32,
     agent: string,
     fee: asset,
     json_meta: string,
-    expiration: time_point_sec}
-);
+    ratification_deadline: time_point_sec,
+    escrow_expiration: time_point_sec
+});
 
-var escrow_dispute = new Serializer( 
-    "escrow_dispute",
-    {from: string,
+var escrow_dispute = new Serializer("escrow_dispute", {
+    from: string,
     to: string,
-    escrow_id: uint32,
-    who: string}
-);
-
-var escrow_release = new Serializer( 
-    "escrow_release",
-    {from: string,
-    to: string,
-    escrow_id: uint32,
+    agent: string,
     who: string,
-    amount: asset}
-);
+    escrow_id: uint32
+});
 
-var pow2 = new Serializer("pow2",{
+var escrow_release = new Serializer("escrow_release", {
+    from: string,
+    to: string,
+    agent: string,
+    who: string,
+    receiver: string,
+    escrow_id: uint32,
+    sbd_amount: asset,
+    steem_amount: asset
+});
+
+var pow2 = new Serializer("pow2", {
     work: work,
     new_owner_key: optional(public_key),
     props: chain_properties
 });
 
-var escrow_approve = new Serializer("escrow_approve",{
+var escrow_approve = new Serializer("escrow_approve", {
     from: string,
     to: string,
     agent: string,
@@ -351,14 +340,14 @@ var escrow_approve = new Serializer("escrow_approve",{
     approve: bool
 });
 
-var transfer_to_savings = new Serializer("transfer_to_savings",{
+var transfer_to_savings = new Serializer("transfer_to_savings", {
     from: string,
     to: string,
     amount: asset,
     memo: string
 });
 
-var transfer_from_savings = new Serializer("transfer_from_savings",{
+var transfer_from_savings = new Serializer("transfer_from_savings", {
     from: string,
     request_id: uint32,
     to: string,
@@ -366,12 +355,12 @@ var transfer_from_savings = new Serializer("transfer_from_savings",{
     memo: string
 });
 
-var cancel_transfer_from_savings = new Serializer("cancel_transfer_from_savings",{
+var cancel_transfer_from_savings = new Serializer("cancel_transfer_from_savings", {
     from: string,
     request_id: uint32
 });
 
-var custom_binary = new Serializer("custom_binary",{
+var custom_binary = new Serializer("custom_binary", {
     required_owner_auths: set(string),
     required_active_auths: set(string),
     required_posting_auths: set(string),
@@ -380,20 +369,47 @@ var custom_binary = new Serializer("custom_binary",{
     data: bytes()
 });
 
-var decline_voting_rights = new Serializer("decline_voting_rights",{
+var decline_voting_rights = new Serializer("decline_voting_rights", {
     account: string,
     decline: bool
 });
 
-var reset_account = new Serializer("reset_account",{
+var reset_account = new Serializer("reset_account", {
     reset_account: string,
     account_to_reset: string,
     new_owner_authority: authority
 });
 
-var set_reset_account = new Serializer("set_reset_account",{
+var set_reset_account = new Serializer("set_reset_account", {
     account: string,
+    current_reset_account: string,
     reset_account: string
+});
+
+var claim_reward_balance = new Serializer("claim_reward_balance", {
+    account: string,
+    reward_steem: asset,
+    reward_sbd: asset,
+    reward_vests: asset
+});
+
+var delegate_vesting_shares = new Serializer("delegate_vesting_shares", {
+    delegator: string,
+    delegatee: string,
+    vesting_shares: asset
+});
+
+var account_create_with_delegation = new Serializer("account_create_with_delegation", {
+    fee: asset,
+    delegation: asset,
+    creator: string,
+    new_account_name: string,
+    owner: authority,
+    active: authority,
+    posting: authority,
+    memo_key: public_key,
+    json_metadata: string,
+    extensions: set(future_extensions)
 });
 
 var fill_convert_request = new Serializer("fill_convert_request", {
@@ -403,14 +419,14 @@ var fill_convert_request = new Serializer("fill_convert_request", {
     amount_out: asset
 });
 
-var author_reward = new Serializer("author_reward",{
+var author_reward = new Serializer("author_reward", {
     author: string,
     permlink: string,
     sbd_payout: asset,
     vesting_payout: asset
 });
 
-var curation_reward = new Serializer("curation_reward",{
+var curation_reward = new Serializer("curation_reward", {
     curator: string,
     reward: asset,
     comment_author: string,
@@ -462,6 +478,26 @@ var fill_transfer_from_savings = new Serializer("fill_transfer_from_savings", {
     memo: string
 });
 
+var hardfork = new Serializer("hardfork", {
+    hardfork_id: uint32
+});
+
+var comment_payout_update = new Serializer("comment_payout_update", {
+    author: string,
+    permlink: string
+});
+
+var return_vesting_delegation = new Serializer("return_vesting_delegation", {
+    account: string,
+    vesting_shares: asset
+});
+
+var comment_benefactor_reward = new Serializer("comment_benefactor_reward", {
+    benefactor: string,
+    author: string,
+    permlink: string,
+    reward: asset
+});
 
 operation.st_operations = [
     vote,    
@@ -503,6 +539,9 @@ operation.st_operations = [
     decline_voting_rights, 
     reset_account,
     set_reset_account,
+    claim_reward_balance,    
+    delegate_vesting_shares,    
+    account_create_with_delegation,
 
     fill_convert_request, 
     author_reward,    
@@ -513,7 +552,11 @@ operation.st_operations = [
     fill_vesting_withdraw,    
     fill_order,
     shutdown_witness,
-    fill_transfer_from_savings
+    fill_transfer_from_savings,
+    hardfork,    
+    comment_payout_update,    
+    return_vesting_delegation,    
+    comment_benefactor_reward
 ]
 
 // --------------------------------------------
