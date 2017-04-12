@@ -406,7 +406,7 @@ function addApi (method) {
 			return l.toUpperCase();
 		});
 	}
-	var methodName = camelCase(method.method);
+	var methodName = method.method_name || camelCase(method.method);
 	var methodParams = method.params || [];
 
 	Remote.prototype[methodName + 'With'] = function (options, callback) {
